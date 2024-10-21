@@ -1,8 +1,11 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CustomAPI {}
+
 // Custom APIs for renderer
-const api = {}
+const api: CustomAPI = {}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

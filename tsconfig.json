@@ -1,4 +1,16 @@
 {
   "files": [],
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      // just to pass the shadcn preflight check
+      "@src/*": [
+        "./src/*"
+      ],
+      "@/*": [
+        "src/renderer/src/*"
+      ]
+    }
+  }
 }
