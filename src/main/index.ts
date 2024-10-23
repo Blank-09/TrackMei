@@ -1,6 +1,8 @@
 import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+
+import { connection } from './config/db.config'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
@@ -51,6 +53,15 @@ app.whenReady().then(() => {
 
   // IPC test
   // ipcMain.on('ping', () => console.log('pong'))
+
+  // Database connection
+  connection
+    .sync()
+    .then(() => console.log('✅ Database successfully connected'))
+    .catch((e) => {
+      console.error('❌ Database failed to connect')
+      console.error(e)
+    })
 
   createWindow()
 
