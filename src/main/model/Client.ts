@@ -1,4 +1,5 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript'
+import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript'
+import { ProjectDetails } from './ProjectDetails'
 
 export type ClientAttributes = {
   id: number
@@ -7,7 +8,6 @@ export type ClientAttributes = {
   owner_email: string
   city: string
   phone: string
-  projects: string
 }
 
 @Table({
@@ -52,9 +52,7 @@ export class Client extends Model<ClientAttributes> implements ClientAttributes 
   })
   declare phone: string
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare projects: string
+  // Define a one-to-many relationship with ProjectDetails
+  @HasMany(() => ProjectDetails)
+  projects!: ProjectDetails[]
 }

@@ -1,11 +1,12 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript'
+import { Table, Model, Column, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript'
+import { ProjectDetails } from './ProjectDetails'
 
 type PaymentType = 'upi' | 'credit card' | 'debit card' | 'netbanking' | 'cash'
 
 export type TransactionAttributes = {
   transid: number
   clientname: string // Fixed typo
-  client_id: number
+  project_id: number
   fromMobilenumber: number
   toMobilenumber: number
   payment: PaymentType
@@ -34,11 +35,12 @@ export class Transaction extends Model<TransactionAttributes> {
   })
   declare clientname: string // Fixed typo
 
+  @ForeignKey(() => ProjectDetails)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  declare client_id: number
+  declare project_id: number
 
   @Column({
     type: DataType.INTEGER,
@@ -87,4 +89,8 @@ export class Transaction extends Model<TransactionAttributes> {
     allowNull: false,
   })
   declare description: string
+
+  // Define a belongs relationship with projectsDetails
+  @BelongsTo(() => ProjectDetails)
+  project!: ProjectDetails
 }

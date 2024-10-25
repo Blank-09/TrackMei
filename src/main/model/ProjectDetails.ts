@@ -1,4 +1,15 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript'
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+  HasMany,
+} from 'sequelize-typescript'
+import { Client } from './Client'
+import { Transaction } from './Transcation'
+import { InternDetails } from './InternDetails'
 
 type ProjectCategory = 'Web development' | 'mobile development' | 'design' | 'Project Management'
 type ProjectPayType = 'monthly' | 'yearly'
@@ -7,8 +18,8 @@ type ProjectStatus = 'completed' | 'in progress' | 'not started'
 export type ProjectDetailsAttributes = {
   id: number
   project_title: string
-  categories: ProjectCategory
   client_id: number
+  categories: ProjectCategory
   project_description: string
   project_start_date: Date
   project_due_date: Date
@@ -35,17 +46,18 @@ export class ProjectDetails extends Model<ProjectDetailsAttributes> {
   })
   declare project_title: string
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare categories: ProjectCategory
-
+  @ForeignKey(() => Client)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
   declare client_id: number
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare categories: ProjectCategory
 
   @Column({
     type: DataType.STRING,
@@ -82,4 +94,16 @@ export class ProjectDetails extends Model<ProjectDetailsAttributes> {
     allowNull: false,
   })
   declare project_status: ProjectStatus
+
+  // Define the belongs-to relationship with Client
+  @BelongsTo(() => Client)
+  client!: Client
+
+  // Define the one-to-many relationship with  Intern
+  @HasMany(() => InternDetails)
+  intern!: InternDetails
+
+  // Define a one-to-many relationship with transactions
+  @HasMany(() => Transaction)
+  transactions!: Transaction[]
 }

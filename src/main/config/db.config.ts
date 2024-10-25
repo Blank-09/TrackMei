@@ -14,11 +14,12 @@ import { Client } from '../model/Client'
 import { Transaction } from '../model/Transcation'
 import { ProjectDetails } from '../model/ProjectDetails'
 import { AdminDetails } from '../model/AdminDetails'
+import { InternDetails } from '../model/InternDetails'
 // import { Client } from '../model/Client'
 
 const sequelizeOptions = {
   dialect: SQL_DIALECT as Dialect,
-  models: [Client, Transaction, ProjectDetails, AdminDetails], // Add your models here
+  models: [Client, Transaction, ProjectDetails, AdminDetails, InternDetails], // Add your models here
   logging: (sql): void => {
     console.log(
       chalk.yellow('[ db ]'),
