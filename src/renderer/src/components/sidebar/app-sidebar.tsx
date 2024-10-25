@@ -9,7 +9,7 @@ import {
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
+  UsersRound,
 } from 'lucide-react'
 
 import { NavMain } from '@/components/sidebar/nav-main'
@@ -50,18 +50,18 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Clients',
       url: '#',
-      icon: SquareTerminal,
+      icon: UsersRound,
       isActive: true,
       items: [
         {
-          title: 'History',
-          url: '#',
+          title: 'Client List',
+          url: '/dashboard/clientlist',
         },
         {
-          title: 'Starred',
-          url: '#',
+          title: 'Add Client',
+          url: '/dashboard/clientaddform',
         },
         {
           title: 'Settings',
