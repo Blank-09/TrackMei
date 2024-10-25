@@ -4,12 +4,12 @@ import { ProjectDetails } from './ProjectDetails'
 type InternCurrentStatus = 'active' | 'inactive' | 'completed'
 
 export type InternDetailsAttributes = {
-  id: number
+  intern_id: number
   name: string
   email: string
   phone: string
   city: string
-  assigned_project_id: number
+  project_id: number
   date_of_joining: Date
   date_of_leaving: Date
   status: InternCurrentStatus
@@ -25,7 +25,7 @@ export class InternDetails extends Model<InternDetailsAttributes> {
     primaryKey: true,
     autoIncrement: true,
   })
-  declare id: number
+  declare intern_id: number
 
   @Column({
     type: DataType.STRING,
@@ -56,7 +56,7 @@ export class InternDetails extends Model<InternDetailsAttributes> {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  declare assigned_project_id: number
+  declare project_id: number
 
   @Column({
     type: DataType.DATE,
@@ -71,12 +71,12 @@ export class InternDetails extends Model<InternDetailsAttributes> {
   declare date_of_leaving: Date
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.ENUM('active', 'inactive', 'completed'), // Use ENUM to restrict status values
     allowNull: false,
   })
   declare status: InternCurrentStatus
 
   // Define a belongs-to relationship with ProjectDetails
   @BelongsTo(() => ProjectDetails)
-  projects!: ProjectDetails[]
+  project!: ProjectDetails // Singular type for a single project association
 }

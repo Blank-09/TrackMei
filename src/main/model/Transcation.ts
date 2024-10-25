@@ -5,7 +5,7 @@ type PaymentType = 'upi' | 'credit card' | 'debit card' | 'netbanking' | 'cash'
 
 export type TransactionAttributes = {
   transid: number
-  clientname: string // Fixed typo
+  clientname: string
   project_id: number
   fromMobilenumber: number
   toMobilenumber: number
@@ -18,7 +18,7 @@ export type TransactionAttributes = {
 }
 
 @Table({
-  tableName: 'transactions', // Fixed table name typo
+  tableName: 'transactions',
   timestamps: true,
 })
 export class Transaction extends Model<TransactionAttributes> {
@@ -33,12 +33,13 @@ export class Transaction extends Model<TransactionAttributes> {
     type: DataType.STRING,
     allowNull: false,
   })
-  declare clientname: string // Fixed typo
+  declare clientname: string
 
   @ForeignKey(() => ProjectDetails)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
+    onDelete: 'CASCADE', // Enable cascading deletion
   })
   declare project_id: number
 
@@ -55,7 +56,7 @@ export class Transaction extends Model<TransactionAttributes> {
   declare toMobilenumber: number
 
   @Column({
-    type: DataType.ENUM('upi', 'credit card', 'debit card', 'netbanking', 'cash'), // Handling ENUM
+    type: DataType.ENUM('upi', 'credit card', 'debit card', 'netbanking', 'cash'),
     allowNull: false,
   })
   declare payment: PaymentType
@@ -90,7 +91,7 @@ export class Transaction extends Model<TransactionAttributes> {
   })
   declare description: string
 
-  // Define a belongs relationship with projectsDetails
+  // Define a belongs relationship with ProjectDetails
   @BelongsTo(() => ProjectDetails)
   project!: ProjectDetails
 }

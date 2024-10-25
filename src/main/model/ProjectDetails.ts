@@ -16,7 +16,7 @@ type ProjectPayType = 'monthly' | 'yearly'
 type ProjectStatus = 'completed' | 'in progress' | 'not started'
 
 export type ProjectDetailsAttributes = {
-  id: number
+  project_id: number
   project_title: string
   client_id: number
   categories: ProjectCategory
@@ -38,7 +38,7 @@ export class ProjectDetails extends Model<ProjectDetailsAttributes> {
     primaryKey: true,
     autoIncrement: true,
   })
-  declare id: number
+  declare project_id: number
 
   @Column({
     type: DataType.STRING,
@@ -50,6 +50,7 @@ export class ProjectDetails extends Model<ProjectDetailsAttributes> {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
+    onDelete: 'CASCADE',
   })
   declare client_id: number
 

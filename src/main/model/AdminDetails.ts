@@ -3,7 +3,7 @@ import { Table, Model, Column, DataType } from 'sequelize-typescript'
 type AdminRole = 'admin' | 'superadmin'
 type AdminDestination = 'founder' | 'co-founder' | 'ceo'
 export type AdminDetailsAttributes = {
-  id: number
+  admin_id: number
   name: string
   email: string
   phone_number: string
@@ -21,7 +21,7 @@ export class AdminDetails extends Model<AdminDetailsAttributes> implements Admin
     primaryKey: true,
     autoIncrement: true,
   })
-  declare id: number
+  declare admin_id: number
 
   @Column({
     type: DataType.STRING,

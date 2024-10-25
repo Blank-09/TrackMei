@@ -2,7 +2,7 @@ import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript'
 import { ProjectDetails } from './ProjectDetails'
 
 export type ClientAttributes = {
-  id: number
+  client_id: number
   company_name: string
   owner_name: string
   owner_email: string
@@ -20,7 +20,7 @@ export class Client extends Model<ClientAttributes> implements ClientAttributes 
     primaryKey: true,
     autoIncrement: true,
   })
-  declare id: number
+  declare client_id: number
 
   @Column({
     type: DataType.STRING,
@@ -52,7 +52,9 @@ export class Client extends Model<ClientAttributes> implements ClientAttributes 
   })
   declare phone: string
 
-  // Define a one-to-many relationship with ProjectDetails
-  @HasMany(() => ProjectDetails)
+  // Define the one-to-many relationship with ProjectDetails
+  @HasMany(() => ProjectDetails, {
+    onDelete: 'CASCADE', // This is essential for cascade delete
+  })
   projects!: ProjectDetails[]
 }
