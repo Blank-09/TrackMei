@@ -7,6 +7,7 @@ import { ThemeProvider } from 'next-themes'
 // Others
 import router from './routes'
 import store from './app/store'
+import { Toaster } from './components/ui/sonner'
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
       <ReduxProvider store={store}>
         <RouterProvider router={router} />
       </ReduxProvider>
+      <Toaster richColors position='top-right' />
     </ThemeProvider>
   )
 }

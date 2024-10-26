@@ -56,5 +56,5 @@ export class Client extends Model<ClientAttributes> implements ClientAttributes 
   @HasMany(() => ProjectDetails, {
     onDelete: 'CASCADE', // This is essential for cascade delete
   })
-  projects!: ProjectDetails[]
+  declare projects: ProjectDetails[]
 }

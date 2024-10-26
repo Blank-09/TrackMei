@@ -10,13 +10,15 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { on } from 'events'
 import { Trash } from 'lucide-react'
+import { toast } from 'sonner'
 
-export function AlertDialogButton() {
+export function AlertDialogButton({ clientId, onDelete }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant='ghost' className='flex justify-between items-center w-full'>
+        <Button variant='ghost' className='flex justify-between  w-full'>
           Delete Account
           <Trash className='ml-2' />
         </Button>
@@ -31,7 +33,19 @@ export function AlertDialogButton() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Delete</AlertDialogAction>
+          <AlertDialogAction
+            onClick={async () => {
+              try {
+                await onDelete(clientId)
+                toast.success('Account deleted successfully')
+              } catch (error) {
+                toast.error('Error deleting client')
+                console.error('Error deleting client:', error)
+              }
+            }}
+          >
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

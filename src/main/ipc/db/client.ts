@@ -15,7 +15,7 @@ ipcMain.handle('client:add', async (_event, data: ClientAttributes) => {
 ipcMain.handle('client:getAll', async () => {
   try {
     const clients = await Client.findAll()
-    return clients
+    return clients.map((client) => client.toJSON())
   } catch (e) {
     console.error(e)
     return null
@@ -25,7 +25,7 @@ ipcMain.handle('client:getAll', async () => {
 ipcMain.handle('client:getById', async (_event, clientId: number) => {
   try {
     const client = await Client.findByPk(clientId)
-    return client
+    return client?.toJSON()
   } catch (e) {
     console.error(e)
     return null
@@ -39,13 +39,13 @@ ipcMain.handle(
       const client = await Client.findByPk(clientId)
       if (client) {
         await client.update(data) // Update the client details
-        return client // Return the updated client
+        return { success: true, message: 'Client updated successfully', client } // Return the updated client
       } else {
-        throw new Error('Client not found')
+        return { success: false, message: 'Client not found' } // Return an error message if client not found
       }
     } catch (e) {
-      console.error(e)
-      return null // Return null on error
+      console.error('Error updating client:', e) // Log the error for debugging
+      return { success: false, message: 'Failed to update client' } // Return a structured error message
     }
   },
 )
