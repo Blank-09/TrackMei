@@ -10,7 +10,6 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { on } from 'events'
 import { Trash } from 'lucide-react'
 import { toast } from 'sonner'
 

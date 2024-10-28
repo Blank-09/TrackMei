@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'clientupdateform/:clientId',
-        element: <UpdateClientForm />, // ClientTable will be rendered inside DashboardLayout
+        element: <UpdateClientForm clientId={':clientId'} />, // UpdateClientForm will be rendered inside DashboardLayout
       },
     ],
   },
