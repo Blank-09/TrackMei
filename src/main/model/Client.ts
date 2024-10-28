@@ -1,5 +1,5 @@
-import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript'
-import { ProjectDetails } from './ProjectDetails'
+import { Table, Model, Column, DataType } from 'sequelize-typescript'
+// import { ProjectDetails } from './ProjectDetails'
 
 export type ClientAttributes = {
   client_id: number
@@ -53,8 +53,8 @@ export class Client extends Model<ClientAttributes> implements ClientAttributes 
   declare phone: string
 
   // Define the one-to-many relationship with ProjectDetails
-  @HasMany(() => ProjectDetails, {
-    onDelete: 'CASCADE', // This is essential for cascade delete
-  })
-  declare projects: ProjectDetails[]
+  // @HasMany(() => ProjectDetails, {
+  //   onDelete: 'CASCADE', // This is essential for cascade delete
+  // })
+  // declare projects: ProjectDetails[]
 }
