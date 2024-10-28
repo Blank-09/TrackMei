@@ -56,12 +56,12 @@ const data = {
       isActive: true,
       items: [
         {
-          title: 'Client List',
-          url: '/dashboard/clientlist',
+          title: 'Client Dashboard',
+          url: '/dashboard/clientaddform',
         },
         {
-          title: 'Add Client',
-          url: '/dashboard/clientaddform',
+          title: 'Client List',
+          url: '/dashboard/clientlist',
         },
         {
           title: 'Settings',
@@ -70,16 +70,16 @@ const data = {
       ],
     },
     {
-      title: 'Models',
+      title: 'Projects',
       url: '#',
       icon: Bot,
       items: [
         {
-          title: 'Genesis',
+          title: 'Project Dashboard',
           url: '#',
         },
         {
-          title: 'Explorer',
+          title: 'Project List',
           url: '#',
         },
         {
@@ -89,24 +89,20 @@ const data = {
       ],
     },
     {
-      title: 'Documentation',
+      title: 'Interns',
       url: '#',
       icon: BookOpen,
       items: [
         {
-          title: 'Introduction',
+          title: 'Interns Dashboard',
           url: '#',
         },
         {
-          title: 'Get Started',
+          title: 'Interns List',
           url: '#',
         },
         {
           title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
           url: '#',
         },
       ],
