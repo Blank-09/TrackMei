@@ -9,7 +9,7 @@ import {
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
+  UsersRound,
 } from 'lucide-react'
 
 import { NavMain } from '@/components/sidebar/nav-main'
@@ -50,18 +50,18 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Clients',
       url: '#',
-      icon: SquareTerminal,
+      icon: UsersRound,
       isActive: true,
       items: [
         {
-          title: 'History',
-          url: '#',
+          title: 'Client Dashboard',
+          url: '/dashboard/clientaddform',
         },
         {
-          title: 'Starred',
-          url: '#',
+          title: 'Client List',
+          url: '/dashboard/clientlist',
         },
         {
           title: 'Settings',
@@ -70,16 +70,16 @@ const data = {
       ],
     },
     {
-      title: 'Models',
+      title: 'Projects',
       url: '#',
       icon: Bot,
       items: [
         {
-          title: 'Genesis',
+          title: 'Project Dashboard',
           url: '#',
         },
         {
-          title: 'Explorer',
+          title: 'Project List',
           url: '#',
         },
         {
@@ -89,24 +89,20 @@ const data = {
       ],
     },
     {
-      title: 'Documentation',
+      title: 'Interns',
       url: '#',
       icon: BookOpen,
       items: [
         {
-          title: 'Introduction',
+          title: 'Interns Dashboard',
           url: '#',
         },
         {
-          title: 'Get Started',
+          title: 'Interns List',
           url: '#',
         },
         {
           title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
           url: '#',
         },
       ],
