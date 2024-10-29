@@ -15,7 +15,7 @@ ipcMain.handle('projectdetails:add', async (_event, data: ProjectDetailsAttribut
 ipcMain.handle('projectdetails:getAll', async () => {
   try {
     const projectdetails = await ProjectDetails.findAll()
-    return projectdetails
+    return projectdetails.map((ProjectDetails) => ProjectDetails.toJSON())
   } catch (e) {
     console.error(e)
     return null
@@ -25,7 +25,7 @@ ipcMain.handle('projectdetails:getAll', async () => {
 ipcMain.handle('projectdetails:getById', async (_event, projectdetailsId: number) => {
   try {
     const projectdetails = await ProjectDetails.findByPk(projectdetailsId)
-    return projectdetails
+    return projectdetails?.toJSON()
   } catch (e) {
     console.error(e)
     return null

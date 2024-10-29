@@ -35,55 +35,57 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { AlertDialogButton } from '@/components/AlertDialogButton'
-import { AddClientDialog } from '@/components/AddClientDialog'
+import { AddProjectDialog } from '@/components/AddProjectDialog'
+import { UpdateProjectDialog } from '@/components/UpdateprojectDialog'
+import { DeleAlertDialog } from '@/components/ProjectDeleteDialog'
 import { toast } from 'sonner'
-import { UpdateClientDialog } from '@/components/UpdateClientDialog'
 
 export type Payment = {
+  project_id: number
+  project_title: string
   client_id: number
+  categories: 'Web development' | 'mobile development' | 'design' | 'Project Management'
+  project_description: string
+  project_start_date: Date
+  project_due_date: Date
+  project_price: number
+  payment_options: 'monthly' | 'yearly'
+  project_status: 'completed' | 'in progress' | 'not started'
   amount: number
   status: 'pending' | 'processing' | 'success' | 'failed'
-  company_name: string
-  owner_name: string
-  owner_email: string
-  city: string
-  phone: string
   email: string
 }
 
-// Handle client deletion
 const handleDelete = async (
-  clientId: number,
+  project_id: number,
   setData: React.Dispatch<React.SetStateAction<Payment[]>>,
 ) => {
   try {
-    await window.electron.ipcRenderer.invoke('client:delete', clientId)
-    setData((prevData) => prevData.filter((client) => client.client_id !== clientId))
-    toast.success('Client deleted successfully')
+    await window.electron.ipcRenderer.invoke('projectdetails:delete', project_id)
+    setData((prevData) => prevData.filter((project) => project.project_id !== project_id))
+    toast.success('Project Deleted Successfully')
   } catch (error) {
-    toast.error('Failed to delete client: ' + error)
-    console.log('Failed to delete client:', error)
+    toast.error('Failed to Delete Project')
+    console.log('Failed to Delete Project: ', error)
   }
 }
 
-export function ClientTable() {
+export function ProjectTable() {
   const [data, setData] = React.useState<Payment[]>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
-  // Fetch data on component mount
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await window.electron.ipcRenderer.invoke('client:getAll')
+        const response = await window.electron.ipcRenderer.invoke('projectdetails:getAll')
         setData(response)
-        console.log('Client data:', response)
+        console.log('project Data:', response)
       } catch (error) {
-        toast.error('Error fetching Client data')
-        console.log('Error fetching Client data:', error)
+        toast.error('Error fetching Project Data')
+        console.log('Error Fetching Project Data', error)
       }
     }
     fetchData()
@@ -113,32 +115,57 @@ export function ClientTable() {
       enableHiding: false,
     },
     {
-      accessorKey: 'company_name',
-      header: 'Company Name',
-      cell: ({ row }) => <div>{row.getValue('company_name')}</div>,
+      accessorKey: 'project_title',
+      header: 'Project Title',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('project_title')}</div>,
     },
     {
-      accessorKey: 'owner_name',
-      header: 'Owner Name',
-      cell: ({ row }) => <div>{row.getValue('owner_name')}</div>,
+      accessorKey: 'client_id',
+      header: 'Client Id',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('client_id')}</div>,
     },
     {
-      accessorKey: 'owner_email',
-      header: 'Owner Email',
-      cell: ({ row }) => <div>{row.getValue('owner_email')}</div>,
+      accessorKey: 'categories',
+      header: 'Categories',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('categories')}</div>,
     },
     {
-      accessorKey: 'city',
-      header: 'City',
-      cell: ({ row }) => <div>{row.getValue('city')}</div>,
+      accessorKey: 'project_description',
+      header: 'Project Description',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('project_description')}</div>,
     },
     {
-      accessorKey: 'phone',
-      header: 'Phone',
-      cell: ({ row }) => <div>{row.getValue('phone')}</div>,
+      accessorKey: 'project_start_date',
+      header: 'Start Date',
+      cell: ({ row }) => {
+        const date = new Date(row.getValue('project_start_date'))
+        return <div className='capitalize'>{date.toLocaleDateString()}</div>
+      },
     },
     {
-      header: 'Actions',
+      accessorKey: 'project_due_date',
+      header: 'Due Date',
+      cell: ({ row }) => {
+        const date = new Date(row.getValue('project_due_date'))
+        return <div className='capitalize'>{date.toLocaleDateString()}</div>
+      },
+    },
+    {
+      accessorKey: 'project_price',
+      header: 'Price',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('project_price')}</div>,
+    },
+    {
+      accessorKey: 'payment_options',
+      header: 'Payment Options',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('payment_options')}</div>,
+    },
+    {
+      accessorKey: 'project_status',
+      header: 'Project Status',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('project_status')}</div>,
+    },
+    {
       id: 'actions',
       enableHiding: false,
       cell: ({ row }) => {
@@ -155,15 +182,15 @@ export function ClientTable() {
             <DropdownMenuContent align='end'>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.client_id.toString())}
+                onClick={() => navigator.clipboard.writeText(payment.project_id.toString())}
               >
                 Copy payment ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <UpdateClientDialog clientId={row.original.client_id} />
-              <AlertDialogButton
-                clientId={row.original.client_id}
-                onDelete={() => handleDelete(row.original.client_id, setData)}
+              <UpdateProjectDialog project_id={row.original.project_id} />
+              <DeleAlertDialog
+                project_id={row.original.project_id}
+                onDelete={() => handleDelete(row.original.project_id, setData)}
               />
             </DropdownMenuContent>
           </DropdownMenu>
@@ -189,21 +216,21 @@ export function ClientTable() {
       columnVisibility,
       rowSelection,
     },
-    initialState: {
-      pagination: {
-        pageSize: 10,
-      },
-    },
   })
 
   return (
     <div className='w-full px-6 p-8'>
-      <h1 className='mt-2 text-xl font-semibold text-center'>Hi Users🙋‍♂️ Client Add Here...!</h1>
-      <div className='flex items-center py-8'>
+      <h1 className='py-2 text-xl font-semibold ml-2 text-center'>
+        Hi Users🙋‍♂️ Project Details Here...!
+      </h1>
+
+      <div className='flex items-center py-4'>
         <Input
-          placeholder='Filter emails...'
-          value={(table.getColumn('owner_email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('owner_email')?.setFilterValue(event.target.value)}
+          placeholder='Filter Project Status...'
+          value={(table.getColumn('project_status')?.getFilterValue() as string) ?? ''}
+          onChange={(event) =>
+            table.getColumn('project_status')?.setFilterValue(event.target.value)
+          }
           className='max-w-sm'
         />
         <DropdownMenu>
@@ -213,22 +240,24 @@ export function ClientTable() {
             </Button>
           </DropdownMenuTrigger>
           <div className='ml-6'>
-            <AddClientDialog />
+            <AddProjectDialog />
           </div>
           <DropdownMenuContent align='end'>
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className='capitalize'
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className='capitalize'
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -237,13 +266,15 @@ export function ClientTable() {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </TableHead>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  )
+                })}
               </TableRow>
             ))}
           </TableHeader>

@@ -3,9 +3,9 @@ import {
   Model,
   Column,
   DataType,
-  BelongsTo,
-  ForeignKey,
   HasMany,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript'
 import { Client } from './Client'
 import { Transaction } from './Transcation'
@@ -18,7 +18,7 @@ type ProjectStatus = 'completed' | 'in progress' | 'not started'
 export type ProjectDetailsAttributes = {
   project_id: number
   project_title: string
-  client_id: number
+  // client_id: number
   categories: ProjectCategory
   project_description: string
   project_start_date: Date

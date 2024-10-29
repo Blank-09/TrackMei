@@ -2,11 +2,11 @@ import * as React from 'react'
 import {
   AudioWaveform,
   BookOpen,
-  Bot,
   Command,
   Frame,
   GalleryVerticalEnd,
   Map,
+  NetworkIcon,
   PieChart,
   Settings2,
   UsersRound,
@@ -53,7 +53,7 @@ const data = {
       title: 'Clients',
       url: '#',
       icon: UsersRound,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: 'Client Dashboard',
@@ -72,7 +72,7 @@ const data = {
     {
       title: 'Projects',
       url: '#',
-      icon: Bot,
+      icon: NetworkIcon,
       items: [
         {
           title: 'Project Dashboard',
@@ -80,7 +80,7 @@ const data = {
         },
         {
           title: 'Project List',
-          url: '#',
+          url: '/dashboard/projectlist',
         },
         {
           title: 'Quantum',
