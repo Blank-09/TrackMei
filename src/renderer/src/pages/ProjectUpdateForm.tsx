@@ -256,7 +256,7 @@ export function ProjectUpdateForm({ project_id }) {
           />
           <DialogClose>
             <Button type='submit' className='w-full'>
-              Submit
+              Update
             </Button>
           </DialogClose>
         </form>

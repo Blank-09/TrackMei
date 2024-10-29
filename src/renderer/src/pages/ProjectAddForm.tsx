@@ -84,7 +84,10 @@ export function ProjectAddForm() {
   return (
     <div className='flex justify-center items-center'>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full p-2 shadow-md rounded'>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='space-y-1 w-full p-2 shadow-md rounded'
+        >
           <h1 className='text-center text-xl'>Project Details</h1>
 
           <FormField
