@@ -43,7 +43,7 @@ import { toast } from 'sonner'
 export type Payment = {
   project_id: number
   project_title: string
-  // client_id: number
+  client_id: number
   categories: 'Web development' | 'mobile development' | 'design' | 'Project Management'
   project_description: string
   project_start_date: Date
@@ -119,11 +119,11 @@ export function ProjectTable() {
       header: 'Project Title',
       cell: ({ row }) => <div className='capitalize'>{row.getValue('project_title')}</div>,
     },
-    // {
-    //   accessorKey: 'client_id',
-    //   header: 'Client Id',
-    //   cell: ({ row }) => <div className='capitalize'>{row.getValue('client_id')}</div>,
-    // },
+    {
+      accessorKey: 'client_id',
+      header: 'Client Id',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('client_id')}</div>,
+    },
     {
       accessorKey: 'categories',
       header: 'Categories',

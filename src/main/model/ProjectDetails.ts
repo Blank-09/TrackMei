@@ -1,5 +1,13 @@
-import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript'
-// import { Client } from './Client'
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  HasMany,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript'
+import { Client } from './Client'
 import { Transaction } from './Transcation'
 import { InternDetails } from './InternDetails'
 
@@ -38,13 +46,13 @@ export class ProjectDetails extends Model<ProjectDetailsAttributes> {
   })
   declare project_title: string
 
-  // @ForeignKey(() => Client)
-  // @Column({
-  //   type: DataType.INTEGER,
-  //   allowNull: false,
-  //   onDelete: 'CASCADE',
-  // })
-  // declare client_id: number
+  @ForeignKey(() => Client)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    onDelete: 'CASCADE',
+  })
+  declare client_id: number
 
   @Column({
     type: DataType.STRING,
@@ -89,8 +97,8 @@ export class ProjectDetails extends Model<ProjectDetailsAttributes> {
   declare project_status: ProjectStatus
 
   // Define the belongs-to relationship with Client
-  // @BelongsTo(() => Client)
-  // client!: Client
+  @BelongsTo(() => Client)
+  client!: Client
 
   // Define the one-to-many relationship with  Intern
   @HasMany(() => InternDetails)

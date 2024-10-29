@@ -34,6 +34,10 @@ const formSchema = z.object({
   project_due_date: z.string().refine((date) => !isNaN(new Date(date).getTime()), {
     message: 'Due date must be a valid date.',
   }),
+  // client_id: z
+  //   .string()
+  //   .transform((val) => Number(val)) // Convert string input to number
+  //   .refine((val) => !isNaN(val) && val > 0, { message: 'Client Id Must be Provide' }),
   project_price: z.number().min(1, { message: 'Price must be a positive number.' }),
   payment_options: z.enum(['monthly', 'yearly']),
   project_status: z.enum(['completed', 'in progress', 'not started']),
@@ -135,6 +139,20 @@ export function ProjectUpdateForm({ project_id }) {
               </FormItem>
             )}
           />
+
+          {/* <FormField
+            control={form.control}
+            name='client_id'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Client Id</FormLabel>
+                <FormControl>
+                  <Input placeholder='Enter Client Id' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
 
           <FormField
             control={form.control}

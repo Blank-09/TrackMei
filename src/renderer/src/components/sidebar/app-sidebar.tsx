@@ -53,7 +53,7 @@ const data = {
       title: 'Clients',
       url: '#',
       icon: UsersRound,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: 'Client Dashboard',
