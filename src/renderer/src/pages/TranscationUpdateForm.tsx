@@ -51,8 +51,10 @@ const formSchema = z.object({
     .regex(/^[0-9]{10,}$/, { message: 'Account number must be at least 10 digits.' })
     .optional(),
   paidamount: z
-    .number()
-    .refine((val) => val > 0, { message: 'Paid amount must be a positive number.' }),
+    .string()
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val > 0, { message: 'Paid amount must be a positive number.' }),
+
   bankname: z.string().min(2, { message: 'Bank name must be at least 2 characters.' }),
   date: z
     .string()
@@ -128,7 +130,7 @@ export function TranscationUpdateForm({ transid }) {
             toMobilenumber: transaction.toMobilenumber ? transaction.toMobilenumber.toString() : '',
             payment: transaction.payment,
             acnumber: transaction.acnumber ? transaction.acnumber.toString() : '',
-            paidamount: transaction.paidamount,
+            paidamount: transaction.paidamount.toString(),
             bankname: transaction.bankname,
             date: transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : '',
             description: transaction.description,
@@ -158,6 +160,8 @@ export function TranscationUpdateForm({ transid }) {
       data.fromMobilenumber = data.fromMobilenumber ? Number(data.fromMobilenumber) : null
       // Convert toMobilenumber to number if provided
       data.toMobilenumber = data.toMobilenumber ? Number(data.toMobilenumber) : null
+      data.paidamount = Number(data.paidamount)
+
       console.log(data)
       const result = await window.electron.ipcRenderer.invoke('transaction:update', {
         ...data,

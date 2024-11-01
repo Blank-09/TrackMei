@@ -47,16 +47,14 @@ const formSchema = z.object({
     .regex(/^[0-9]{10}$/, { message: 'Mobile number must be a 10-digit number.' }),
   payment: z.enum(['upi', 'credit card', 'debit card', 'netbanking', 'cash']),
   acnumber: z
-    .number()
-    .refine((val) => val.toString().length >= 10, {
-      message: 'Account number must be at least 10 digits.',
-    })
+    .string()
+    .regex(/^[0-9]{10,}$/, { message: 'Account number must be at least 10 digits.' })
     .optional(),
-
   paidamount: z
     .string()
-    .transform((val) => Number(val)) // Convert string input to number
-    .refine((val) => !isNaN(val) && val > 0, { message: 'paid amount must be a positive number.' }),
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val > 0, { message: 'Paid amount must be a positive number.' }),
+
   bankname: z.string().min(2, { message: 'Bank name must be at least 2 characters.' }),
   date: z
     .string()
@@ -118,6 +116,12 @@ export function TranscationAddForm() {
 
   const onSubmit = async (data) => {
     try {
+      // Convert acnumber to number if provided
+      data.acnumber = data.acnumber ? Number(data.acnumber) : null
+      // Convert fromMobilenumber to number if provided
+      data.fromMobilenumber = data.fromMobilenumber ? Number(data.fromMobilenumber) : null
+      // Convert toMobilenumber to number if provided
+      data.toMobilenumber = data.toMobilenumber ? Number(data.toMobilenumber) : null
       console.log(data)
       const result = await window.electron.ipcRenderer.invoke('transaction:add', data)
       if (result) {
