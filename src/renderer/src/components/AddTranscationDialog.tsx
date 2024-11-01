@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { TranscationAddForm } from '@/pages/TranscationAddForm'
-import { UserRoundPlusIcon } from 'lucide-react'
+import { Settings2 } from 'lucide-react'
 
 export function AddTranscationDialog() {
   return (
@@ -9,7 +9,7 @@ export function AddTranscationDialog() {
       <DialogTrigger asChild>
         <Button variant='outline' className='bg-white text-black'>
           Add Transcation
-          <UserRoundPlusIcon />
+          <Settings2 />
         </Button>
       </DialogTrigger>
       <DialogContent className='max-w-[625px]'>

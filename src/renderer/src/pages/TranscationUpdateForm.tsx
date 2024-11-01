@@ -46,10 +46,10 @@ const formSchema = z.object({
     .string()
     .regex(/^[0-9]{10}$/, { message: 'Mobile number must be a 10-digit number.' }),
   payment: z.enum(['upi', 'credit card', 'debit card', 'netbanking', 'cash']),
-  acnumber: z
-    .string()
-    .regex(/^[0-9]{10,}$/, { message: 'Account number must be at least 10 digits.' })
-    .optional(),
+  // acnumber: z
+  //   .string()
+  //   .regex(/^[0-9]{10,}$/, { message: 'Account number must be at least 10 digits.' })
+  //   .optional(),
   paidamount: z
     .string()
     .transform((val) => Number(val))
@@ -79,7 +79,7 @@ export function TranscationUpdateForm({ transid }) {
       fromMobilenumber: '',
       toMobilenumber: '',
       payment: '',
-      acnumber: '',
+      // acnumber: '',
       paidamount: '',
       bankname: '',
       date: '',
@@ -129,7 +129,7 @@ export function TranscationUpdateForm({ transid }) {
               : '',
             toMobilenumber: transaction.toMobilenumber ? transaction.toMobilenumber.toString() : '',
             payment: transaction.payment,
-            acnumber: transaction.acnumber ? transaction.acnumber.toString() : '',
+            // acnumber: transaction.acnumber ? transaction.acnumber.toString() : '',
             paidamount: transaction.paidamount.toString(),
             bankname: transaction.bankname,
             date: transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : '',
@@ -160,7 +160,7 @@ export function TranscationUpdateForm({ transid }) {
       data.fromMobilenumber = data.fromMobilenumber ? Number(data.fromMobilenumber) : null
       // Convert toMobilenumber to number if provided
       data.toMobilenumber = data.toMobilenumber ? Number(data.toMobilenumber) : null
-      data.paidamount = Number(data.paidamount)
+      // data.paidamount = Number(data.paidamount)
 
       console.log(data)
       const result = await window.electron.ipcRenderer.invoke('transaction:update', {
@@ -372,7 +372,7 @@ export function TranscationUpdateForm({ transid }) {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name='acnumber'
             render={({ field }) => (
@@ -384,7 +384,7 @@ export function TranscationUpdateForm({ transid }) {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <FormField
             control={form.control}

@@ -46,10 +46,10 @@ const formSchema = z.object({
     .string()
     .regex(/^[0-9]{10}$/, { message: 'Mobile number must be a 10-digit number.' }),
   payment: z.enum(['upi', 'credit card', 'debit card', 'netbanking', 'cash']),
-  acnumber: z
-    .string()
-    .regex(/^[0-9]{10,}$/, { message: 'Account number must be at least 10 digits.' })
-    .optional(),
+  // acnumber: z
+  //   .string()
+  //   .regex(/^[0-9]{10,}$/, { message: 'Account number must be at least 10 digits.' })
+  //   .optional(),
   paidamount: z
     .string()
     .transform((val) => Number(val))
@@ -78,7 +78,7 @@ export function TranscationAddForm() {
       fromMobilenumber: '',
       toMobilenumber: '',
       payment: '',
-      acnumber: '',
+      // acnumber: '',
       paidamount: '',
       bankname: '',
       date: '',
@@ -117,7 +117,7 @@ export function TranscationAddForm() {
   const onSubmit = async (data) => {
     try {
       // Convert acnumber to number if provided
-      data.acnumber = data.acnumber ? Number(data.acnumber) : null
+      // data.acnumber = data.acnumber ? Number(data.acnumber) : null
       // Convert fromMobilenumber to number if provided
       data.fromMobilenumber = data.fromMobilenumber ? Number(data.fromMobilenumber) : null
       // Convert toMobilenumber to number if provided
@@ -144,7 +144,7 @@ export function TranscationAddForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-1 w-full max-w-xl p-2 shadow-md rounded '
+          className='space-y-1 w-full max-w-xl  shadow-md rounded '
         >
           <h1 className='text-center text-xl'>Add Transaction</h1>
 
@@ -330,7 +330,7 @@ export function TranscationAddForm() {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name='acnumber'
             render={({ field }) => (
@@ -342,7 +342,7 @@ export function TranscationAddForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <FormField
             control={form.control}

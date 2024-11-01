@@ -47,7 +47,7 @@ export type Payment = {
   fromMobilenumber: number
   toMobilenumber: number
   payment: 'upi' | 'credit card' | 'debit card' | 'netbanking' | 'cash'
-  acnumber: number
+  // acnumber: number
   paidamount: number
   bankname: string
   date: Date
@@ -64,7 +64,6 @@ const handleDelete = async (
     await window.electron.ipcRenderer.invoke('transaction:delete', transid)
     const response = await window.electron.ipcRenderer.invoke('transaction:getAll')
     setData(response)
-    toast.success('Transcation deleted successfully')
   } catch (error) {
     toast.error('Error deleting transcation')
     console.error('Error deleting transcation:', error)
@@ -145,11 +144,11 @@ export function TranscationTable() {
       header: 'Payment Type',
       cell: ({ row }) => <div className='capitalize'>{row.getValue('payment')}</div>,
     },
-    {
-      accessorKey: 'acnumber',
-      header: 'Account Number',
-      cell: ({ row }) => <div className='capitalize'>{row.getValue('acnumber')}</div>,
-    },
+    // {
+    //   accessorKey: 'acnumber',
+    //   header: 'Account Number',
+    //   cell: ({ row }) => <div className='capitalize'>{row.getValue('acnumber')}</div>,
+    // },
     //   {
     //     accessorKey: 'payment',
     //     header: ({ column }) => {

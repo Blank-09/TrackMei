@@ -9,7 +9,7 @@ export type TransactionAttributes = {
   fromMobilenumber: number
   toMobilenumber: number
   payment: PaymentType
-  acnumber: number
+  // acnumber: number
   paidamount: number
   bankname: string
   date: Date
@@ -58,11 +58,11 @@ export class Transaction extends Model<TransactionAttributes> {
   })
   declare payment: PaymentType
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  declare acnumber: number
+  // @Column({
+  //   type: DataType.INTEGER,
+  //   allowNull: false,
+  // })
+  // declare acnumber: number
 
   @Column({
     type: DataType.INTEGER,
