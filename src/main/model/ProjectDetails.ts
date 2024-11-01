@@ -8,7 +8,7 @@ import {
   BelongsTo,
 } from 'sequelize-typescript'
 import { Client } from './Client'
-import { Transaction } from './Transcation'
+// import { Transaction } from './Transcation'
 import { InternDetails } from './InternDetails'
 
 type ProjectCategory = 'Web development' | 'mobile development' | 'design' | 'Project Management'
@@ -105,6 +105,6 @@ export class ProjectDetails extends Model<ProjectDetailsAttributes> {
   intern!: InternDetails
 
   // Define a one-to-many relationship with transactions
-  @HasMany(() => Transaction)
-  transactions!: Transaction[]
+  // @HasMany(() => Transaction)
+  // transactions!: Transaction[]
 }
