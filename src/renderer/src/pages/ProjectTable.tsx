@@ -43,7 +43,7 @@ import { toast } from 'sonner'
 export type Payment = {
   project_id: number
   project_title: string
-  client_id: number
+  clientname: string
   categories: 'Web development' | 'mobile development' | 'design' | 'Project Management'
   project_description: string
   project_start_date: Date
@@ -63,7 +63,6 @@ const handleDelete = async (
   try {
     await window.electron.ipcRenderer.invoke('projectdetails:delete', project_id)
     setData((prevData) => prevData.filter((project) => project.project_id !== project_id))
-    toast.success('Project Deleted Successfully')
   } catch (error) {
     toast.error('Failed to Delete Project')
     console.log('Failed to Delete Project: ', error)
@@ -120,9 +119,9 @@ export function ProjectTable() {
       cell: ({ row }) => <div className='capitalize'>{row.getValue('project_title')}</div>,
     },
     {
-      accessorKey: 'client_id',
-      header: 'Client Id',
-      cell: ({ row }) => <div className='capitalize'>{row.getValue('client_id')}</div>,
+      accessorKey: 'clientname',
+      header: 'Client Name',
+      cell: ({ row }) => <div className='capitalize'>{row.getValue('clientname')}</div>,
     },
     {
       accessorKey: 'categories',
@@ -152,8 +151,18 @@ export function ProjectTable() {
     },
     {
       accessorKey: 'project_price',
-      header: 'Price',
-      cell: ({ row }) => <div className='capitalize'>{row.getValue('project_price')}</div>,
+      header: () => <div className=''>Project Price</div>,
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue('project_price'))
+
+        // Format the amount as a dollar amount
+        const formatted = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'INR',
+        }).format(amount)
+
+        return <div className=' font-medium'>{formatted}</div>
+      },
     },
     {
       accessorKey: 'payment_options',
@@ -165,6 +174,7 @@ export function ProjectTable() {
       header: 'Project Status',
       cell: ({ row }) => <div className='capitalize'>{row.getValue('project_status')}</div>,
     },
+
     {
       id: 'actions',
       enableHiding: false,

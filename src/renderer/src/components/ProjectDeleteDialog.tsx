@@ -36,7 +36,7 @@ export function DeleAlertDialog({ project_id, onDelete }) {
             onClick={async () => {
               try {
                 await onDelete(project_id)
-                toast.success('Account deleted successfully')
+                toast.success('Project deleted successfully')
               } catch (error) {
                 toast.error('Error deleting client')
                 console.error('Error deleting client:', error)

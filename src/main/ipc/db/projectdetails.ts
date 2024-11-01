@@ -1,9 +1,19 @@
 import { ipcMain } from 'electron'
 import { ProjectDetails, ProjectDetailsAttributes } from '../../model/ProjectDetails'
+import { Client } from '../../model/Client'
 
 ipcMain.handle('projectdetails:add', async (_event, data: ProjectDetailsAttributes) => {
   try {
-    const projectdetails = await ProjectDetails.create(data)
+    const client = await Client.findByPk(data.clientname)
+    if (!client) {
+      console.error('Client not found:', data.clientname)
+      return null
+    }
+
+    const projectdetails = await ProjectDetails.create({
+      ...data,
+      clientname: client.owner_name,
+    })
     return projectdetails
     return null
   } catch (e) {
