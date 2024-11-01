@@ -5,6 +5,7 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  LayoutDashboard,
   Map,
   NetworkIcon,
   PieChart,
@@ -23,6 +24,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { NavLink } from 'react-router-dom'
 
 // This is sample data.
 const data = {
@@ -65,7 +67,7 @@ const data = {
         },
         {
           title: 'Settings',
-          url: '#',
+          url: '/dashboard/maindashboard',
         },
       ],
     },
@@ -157,6 +159,12 @@ export const AppSidebar: React.FC<React.ComponentProps<typeof Sidebar>> = ({ ...
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
+        <div className='flex ml-5 mt-2'>
+          <LayoutDashboard className='size-4 mt-1' />
+          <NavLink to='/dashboard/maindashboard' className='nav-link ml-2'>
+            Dashboard
+          </NavLink>
+        </div>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
