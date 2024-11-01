@@ -1,3 +1,5 @@
+'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -19,9 +21,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect } from 'react'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { DialogClose } from '@/components/ui/dialog'
+import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 // Define form schema
 const formSchema = z.object({
@@ -34,21 +47,22 @@ const formSchema = z.object({
   project_due_date: z.string().refine((date) => !isNaN(new Date(date).getTime()), {
     message: 'Due date must be a valid date.',
   }),
-  // client_id: z
-  //   .string()
-  //   .transform((val) => Number(val)) // Convert string input to number
-  //   .refine((val) => !isNaN(val) && val > 0, { message: 'Client Id Must be Provide' }),
+  clientname: z.string().min(1, { message: 'Client name must be at least 2 characters.' }),
   project_price: z.number().min(1, { message: 'Price must be a positive number.' }),
   payment_options: z.enum(['monthly', 'yearly']),
   project_status: z.enum(['completed', 'in progress', 'not started']),
 })
 
 export function ProjectUpdateForm({ project_id }) {
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState('')
+  const [clients, setClients] = useState<{ client_id: number; owner_name: string }[]>([])
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       project_title: '',
-      // client_id: '',
+      clientname: '',
       categories: '',
       project_description: '',
       project_start_date: '',
@@ -58,6 +72,21 @@ export function ProjectUpdateForm({ project_id }) {
       project_status: '',
     },
   })
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('client:getAll')
+        console.log(response)
+        setClients(response)
+      } catch (error) {
+        console.error('Error fetching clients:', error)
+        toast.error('Error fetching clients')
+      }
+    }
+
+    fetchClients()
+  }, [])
 
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -71,7 +100,7 @@ export function ProjectUpdateForm({ project_id }) {
         if (project) {
           form.reset({
             project_title: project.project_title,
-            // client_id: project.client_id,
+            clientname: project.clientname,
             categories: project.categories,
             project_description: project.project_description,
             project_start_date: new Date(project.project_start_date).toISOString().split('T')[0],
@@ -80,6 +109,7 @@ export function ProjectUpdateForm({ project_id }) {
             payment_options: project.payment_options,
             project_status: project.project_status,
           })
+          setValue(project.clientname) // Set the value to the clientname
         } else {
           console.error('No project found for the given ID')
         }
@@ -140,19 +170,61 @@ export function ProjectUpdateForm({ project_id }) {
             )}
           />
 
-          {/* <FormField
+          <FormField
             control={form.control}
-            name='client_id'
+            name='clientname'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Client Id</FormLabel>
-                <FormControl>
-                  <Input placeholder='Enter Client Id' {...field} />
-                </FormControl>
+                <FormLabel>Client Name</FormLabel>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant='outline'
+                      role='combobox'
+                      aria-expanded={open}
+                      className='justify-between w-full'
+                    >
+                      {value || 'Select Client Name...'}
+                      <ChevronsUpDownIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className='w-[200px] p-0'>
+                    <Command>
+                      <CommandInput placeholder='Search Client Name...' />
+                      <CommandList>
+                        <CommandEmpty>No Client Name found.</CommandEmpty>
+                        <CommandGroup>
+                          {clients.map(
+                            (client) =>
+                              client && (
+                                <CommandItem
+                                  key={client.client_id}
+                                  value={client.owner_name}
+                                  onSelect={(currentValue) => {
+                                    setValue(currentValue === value ? '' : currentValue)
+                                    field.onChange(currentValue === value ? '' : currentValue)
+                                    setOpen(false)
+                                  }}
+                                >
+                                  <CheckIcon
+                                    className={cn(
+                                      'mr-2 h-4 w-4',
+                                      value === client.owner_name ? 'opacity-100' : 'opacity-0',
+                                    )}
+                                  />
+                                  {client.owner_name}
+                                </CommandItem>
+                              ),
+                          )}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
 
           <FormField
             control={form.control}

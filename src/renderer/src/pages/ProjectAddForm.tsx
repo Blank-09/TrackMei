@@ -30,7 +30,6 @@ import {
 } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { toast } from 'sonner'
-import { DialogClose } from '@/components/ui/dialog'
 import { useEffect, useState } from 'react'
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react'
 
@@ -50,10 +49,12 @@ const formSchema = z.object({
   project_due_date: z.string().refine((date) => !isNaN(new Date(date).getTime()), {
     message: 'Due date must be a valid date.',
   }),
-  client_id: z
-    .string()
-    .transform((val) => Number(val)) // Convert string input to number
-    .refine((val) => !isNaN(val) && val > 0, { message: 'Client Id Must be Provide' }),
+  // client_id: z
+  //   .string()
+  //   .transform((val) => Number(val)) // Convert string input to number
+  //   .refine((val) => !isNaN(val) && val > 0, { message: 'Client Id Must be Provide' }),
+  clientname: z.string().min(1, { message: 'client name must be at least 2 characters.' }),
+
   payment_options: z.enum(['monthly', 'yearly']),
   project_status: z.enum(['completed', 'in progress', 'not started']),
 })
@@ -67,7 +68,7 @@ export function ProjectAddForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       project_title: '',
-      client_id: '',
+      clientname: '',
       categories: 'Web development',
       project_description: '',
       project_start_date: '',
@@ -136,7 +137,7 @@ export function ProjectAddForm() {
 
           <FormField
             control={form.control}
-            name='client_id'
+            name='clientname'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Client Id</FormLabel>
@@ -181,8 +182,7 @@ export function ProjectAddForm() {
                                         : 'opacity-0',
                                     )}
                                   />
-                                  {client.client_id}
-                                  {/* {client.owner_name} */}
+                                  {client.owner_name}
                                 </CommandItem>
                               ),
                           )}
@@ -314,11 +314,11 @@ export function ProjectAddForm() {
               </FormItem>
             )}
           />
-          <DialogClose>
-            <Button onSubmit={onSubmit} type='submit' className='w-full'>
-              Submit
-            </Button>
-          </DialogClose>
+          {/* <DialogClose> */}
+          <Button onSubmit={onSubmit} type='submit' className='w-full'>
+            Submit
+          </Button>
+          {/* </DialogClose> */}
         </form>
       </Form>
     </div>
