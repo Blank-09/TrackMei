@@ -108,17 +108,17 @@ const data = {
       ],
     },
     {
-      title: 'Settings',
+      title: 'Transcation',
       url: '#',
       icon: Settings2,
       items: [
         {
-          title: 'General',
+          title: 'Transcation Dashboard',
           url: '#',
         },
         {
-          title: 'Team',
-          url: '#',
+          title: 'Transcation List',
+          url: '/dashboard/transactionlist',
         },
         {
           title: 'Billing',

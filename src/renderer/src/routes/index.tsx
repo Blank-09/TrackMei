@@ -10,6 +10,7 @@ import { UpdateClientForm } from '@/pages/UpdateClientForm'
 import { ProjectTable } from '@/pages/ProjectTable'
 import { ProjectAddForm } from '@/pages/ProjectAddForm'
 import { ProjectUpdateForm } from '@/pages/ProjectUpdateForm'
+import { TranscationTable } from '@/pages/TranscationTable'
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: 'projectupdateform',
         element: <ProjectUpdateForm project_id={':project_id'} />,
+      },
+      {
+        path: 'transactionlist',
+        element: <TranscationTable />,
       },
     ],
   },

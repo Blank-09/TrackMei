@@ -47,7 +47,7 @@ export function UpdateClientForm({ clientId }) {
       console.log('Fetching client data for ID:', clientId) // Debug log
       try {
         const client = await window.electron.ipcRenderer.invoke('client:getById', clientId)
-        console.log('Client data received:', client) // Debug log
+        // console.log('Client data received:', client) // Debug log
         if (client) {
           form.reset({
             owner_name: client.owner_name,
