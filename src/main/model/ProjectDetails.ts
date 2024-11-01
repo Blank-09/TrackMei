@@ -1,15 +1,4 @@
 import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript'
-import { Transaction } from './Transcation'
-import {
-  Table,
-  Model,
-  Column,
-  DataType,
-  HasMany,
-  ForeignKey,
-  BelongsTo,
-} from 'sequelize-typescript'
-import { Client } from './Client'
 // import { Transaction } from './Transcation'
 import { InternDetails } from './InternDetails'
 
