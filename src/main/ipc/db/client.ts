@@ -53,7 +53,7 @@ ipcMain.handle(
 ipcMain.handle('client:delete', async (_event, id: number) => {
   try {
     // First, delete related transactions if not using cascade
-    await Transaction.destroy({ where: { project_id: id } }) // Adjust based on your foreign key
+    await Transaction.destroy({ where: { project_title: id } }) // Adjust based on your foreign key
 
     const client = await Client.findByPk(id)
     if (!client) {

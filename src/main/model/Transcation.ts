@@ -1,12 +1,11 @@
-import { Table, Model, Column, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript'
-import { ProjectDetails } from './ProjectDetails'
+import { Table, Model, Column, DataType } from 'sequelize-typescript'
 
 type PaymentType = 'upi' | 'credit card' | 'debit card' | 'netbanking' | 'cash'
 
 export type TransactionAttributes = {
   transid: number
   clientname: string
-  project_id: number
+  project_title: string
   fromMobilenumber: number
   toMobilenumber: number
   payment: PaymentType
@@ -35,13 +34,11 @@ export class Transaction extends Model<TransactionAttributes> {
   })
   declare clientname: string
 
-  @ForeignKey(() => ProjectDetails)
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
     allowNull: false,
-    onDelete: 'CASCADE', // Enable cascading deletion
   })
-  declare project_id: number
+  declare project_title: string
 
   @Column({
     type: DataType.INTEGER,
@@ -90,8 +87,4 @@ export class Transaction extends Model<TransactionAttributes> {
     allowNull: false,
   })
   declare description: string
-
-  // Define a belongs relationship with ProjectDetails
-  @BelongsTo(() => ProjectDetails)
-  project!: ProjectDetails
 }
