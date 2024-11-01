@@ -15,19 +15,19 @@ export function DashboardMainNav({ className, ...props }: React.HTMLAttributes<H
         to='/examples/dashboard'
         className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
       >
-        Customers
+        Clients
       </Link>
       <Link
         to='/examples/dashboard'
         className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
       >
-        Products
+        Projects
       </Link>
       <Link
         to='/examples/dashboard'
         className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
       >
-        Settings
+        Transactions
       </Link>
     </nav>
   )

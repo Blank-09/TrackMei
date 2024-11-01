@@ -1,7 +1,6 @@
 // import { Metadata } from "next"
 // import Image from "next/image"
 
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // import { CalendarDateRangePicker } from "@/app/(app)/examples/dashboard/components/date-range-picker"
@@ -11,12 +10,6 @@ import { DashboardMainNav } from '@/components/DashboardMainNav'
 import { DashboardSearch } from '@/components/DashboardSearch'
 import DashboardTeamSwitcher from '@/components/DashboardTeamSwitcher'
 import { DashboardUserNav } from '@/components/DashboardUserNav'
-// import { MainNav } from "@/app/(app)/examples/dashboard/components/main-nav"
-// import { Overview } from "@/app/(app)/examples/dashboard/components/overview"
-// import { RecentSales } from "@/app/(app)/examples/dashboard/components/recent-sales"
-// import { Search } from "@/app/(app)/examples/dashboard/components/search"
-// import TeamSwitcher from "@/app/(app)/examples/dashboard/components/team-switcher"
-// import { UserNav } from "@/app/(app)/examples/dashboard/components/user-nav"
 
 // export const metadata: Metadata = {
 //   title: "Dashboard",
@@ -56,22 +49,22 @@ export default function DashboardPage() {
         <div className='flex-1 space-y-4 p-8 pt-6'>
           <div className='flex items-center justify-between space-y-2'>
             <h2 className='text-3xl font-bold tracking-tight'>Dashboard</h2>
-            <div className='flex items-center space-x-2'>
-              {/* <CalendarDateRangePicker /> */}
-              <Button>Download</Button>
-            </div>
+            {/* <div className='flex items-center space-x-2'> */}
+            {/* <CalendarDateRangePicker /> */}
+            {/* <Button>Download</Button> */}
+            {/* </div> */}
           </div>
           <Tabs defaultValue='overview' className='space-y-4'>
             <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
-              <TabsTrigger value='analytics' disabled>
-                Analytics
+              <TabsTrigger value='Clients' disabled>
+                Clients
               </TabsTrigger>
-              <TabsTrigger value='reports' disabled>
-                Reports
+              <TabsTrigger value='Projects' disabled>
+                Projects
               </TabsTrigger>
-              <TabsTrigger value='notifications' disabled>
-                Notifications
+              <TabsTrigger value='Transactions' disabled>
+                Transactions
               </TabsTrigger>
             </TabsList>
             <TabsContent value='overview' className='space-y-4'>
@@ -81,60 +74,74 @@ export default function DashboardPage() {
                     <CardTitle className='text-sm font-medium'>Total Revenue</CardTitle>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
+                      width='24'
+                      height='24'
                       viewBox='0 0 24 24'
                       fill='none'
                       stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth='2'
-                      className='h-4 w-4 text-muted-foreground'
+                      stroke-width='2'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      className='lucide lucide-indian-rupee'
                     >
-                      <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+                      <path d='M6 3h12' />
+                      <path d='M6 8h12' />
+                      <path d='m6 13 8.5 8' />
+                      <path d='M6 13h3' />
+                      <path d='M9 13c6.667 0 6.667-10 0-10' />
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>$45,231.89</div>
+                    <div className='text-2xl font-bold'>₹45,231.89</div>
                     <p className='text-xs text-muted-foreground'>+20.1% from last month</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                    <CardTitle className='text-sm font-medium'>Subscriptions</CardTitle>
+                    <CardTitle className='text-sm font-medium'>Total Client's</CardTitle>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
+                      width='24'
+                      height='24'
                       viewBox='0 0 24 24'
                       fill='none'
                       stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth='2'
-                      className='h-4 w-4 text-muted-foreground'
+                      stroke-width='2'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      className='lucide lucide-users'
                     >
                       <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
                       <circle cx='9' cy='7' r='4' />
-                      <path d='M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
+                      <path d='M22 21v-2a4 4 0 0 0-3-3.87' />
+                      <path d='M16 3.13a4 4 0 0 1 0 7.75' />
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>+2350</div>
+                    <div className='text-2xl font-bold'>102</div>
                     <p className='text-xs text-muted-foreground'>+180.1% from last month</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                    <CardTitle className='text-sm font-medium'>Sales</CardTitle>
+                    <CardTitle className='text-sm font-medium'>Total Projects</CardTitle>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
+                      width='24'
+                      height='24'
                       viewBox='0 0 24 24'
                       fill='none'
                       stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth='2'
-                      className='h-4 w-4 text-muted-foreground'
+                      stroke-width='2'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      className='lucide lucide-network'
                     >
-                      <rect width='20' height='14' x='2' y='5' rx='2' />
-                      <path d='M2 10h20' />
+                      <rect x='16' y='16' width='6' height='6' rx='1' />
+                      <rect x='2' y='16' width='6' height='6' rx='1' />
+                      <rect x='9' y='2' width='6' height='6' rx='1' />
+                      <path d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3' />
+                      <path d='M12 12V8' />
                     </svg>
                   </CardHeader>
                   <CardContent>
@@ -144,18 +151,30 @@ export default function DashboardPage() {
                 </Card>
                 <Card>
                   <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                    <CardTitle className='text-sm font-medium'>Active Now</CardTitle>
+                    <CardTitle className='text-sm font-medium'>Total Intern's</CardTitle>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
+                      width='24'
+                      height='24'
                       viewBox='0 0 24 24'
                       fill='none'
                       stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth='2'
-                      className='h-4 w-4 text-muted-foreground'
+                      stroke-width='2'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      className='lucide lucide-user-cog'
                     >
-                      <path d='M22 12h-4l-3 9L9 3l-3 9H2' />
+                      <circle cx='18' cy='15' r='3' />
+                      <circle cx='9' cy='7' r='4' />
+                      <path d='M10 15H6a4 4 0 0 0-4 4v2' />
+                      <path d='m21.7 16.4-.9-.3' />
+                      <path d='m15.2 13.9-.9-.3' />
+                      <path d='m16.6 18.7.3-.9' />
+                      <path d='m19.1 12.2.3-.9' />
+                      <path d='m19.6 18.7-.4-1' />
+                      <path d='m16.8 12.3-.4-1' />
+                      <path d='m14.3 16.6 1-.4' />
+                      <path d='m20.7 13.8 1-.4' />
                     </svg>
                   </CardHeader>
                   <CardContent>
@@ -175,8 +194,8 @@ export default function DashboardPage() {
                 </Card>
                 <Card className='col-span-3'>
                   <CardHeader>
-                    <CardTitle>Recent Sales</CardTitle>
-                    <CardDescription>You made 265 sales this month.</CardDescription>
+                    <CardTitle>Recent Projects</CardTitle>
+                    <CardDescription>You made 265 Projects this week.</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <DashboardRecent />
