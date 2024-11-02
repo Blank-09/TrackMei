@@ -12,6 +12,7 @@ import { ProjectAddForm } from '@/pages/ProjectAddForm'
 import { ProjectUpdateForm } from '@/pages/ProjectUpdateForm'
 import { TranscationTable } from '@/pages/TranscationTable'
 import DashboardPage from '@/pages/MainDashboardPage'
+import ClientDashboardPage from '@/pages/ClientDashboardPage'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: 'maindashboard',
         element: <DashboardPage />, // ClientTable will be rendered inside DashboardLayout
+      },
+      {
+        path: 'clientdashboard',
+        element: <ClientDashboardPage />, // ClientTable will be rendered inside DashboardLayout
       },
       {
         path: 'clientlist',
