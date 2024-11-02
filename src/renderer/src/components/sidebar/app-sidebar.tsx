@@ -116,7 +116,7 @@ const data = {
       items: [
         {
           title: 'Transcation Dashboard',
-          url: '#',
+          url: '/dashboard/transactiondashboard',
         },
         {
           title: 'Transcation List',
