@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import React, { useEffect } from 'react'
+import { Badge } from '../ui/badge'
 
 type Client = {
   name: string
@@ -21,13 +22,14 @@ export function ClientRecent() {
           companyname: client.company_name,
         }))
         setClients(clientData)
+        console.log('Clients:', clientData)
       } catch (error) {
         console.log('Error fetching clients:', error)
       }
     }
     fetchClients()
   }, [])
-  const topClients = clients.slice(0, 5)
+  const topClients = clients.slice(-5).reverse()
   return (
     <div className='space-y-8'>
       {topClients.map((client, index) => (
@@ -45,7 +47,9 @@ export function ClientRecent() {
             <p className='text-sm font-medium leading-none'>{client.name}</p>
             <p className='text-sm text-muted-foreground'>{client.email}</p>
           </div>
-          <div className='ml-auto font-medium'>{client.companyname}</div>
+          <div className='ml-auto font-medium'>
+            <Badge variant='outline'>{client.companyname}</Badge>
+          </div>
         </div>
       ))}
     </div>
