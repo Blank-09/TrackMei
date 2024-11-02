@@ -2,7 +2,7 @@
 // import Image from "next/image"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
 // import { CalendarDateRangePicker } from "@/app/(app)/examples/dashboard/components/date-range-picker"
 import { DashboardOverview } from '@/components/DashboardOverview'
 import { DashboardRecent } from '@/components/DashboardRecent'
@@ -10,13 +10,64 @@ import { DashboardMainNav } from '@/components/DashboardMainNav'
 import { DashboardSearch } from '@/components/DashboardSearch'
 import DashboardTeamSwitcher from '@/components/DashboardTeamSwitcher'
 import { DashboardUserNav } from '@/components/DashboardUserNav'
+import { useEffect, useState } from 'react'
+import CountUp from 'react-countup'
 
 // export const metadata: Metadata = {
 //   title: "Dashboard",
 //   description: "Example dashboard app built using the components.",
 // }
 
+type Project = {
+  project_status: string
+}
+type Transaction = {
+  paidamount: number
+}
+
 export default function DashboardPage() {
+  const [totalClients, setTotalClients] = useState(0)
+  const [projects, setProjects] = useState<Project[]>([])
+  const [totalIncome, setTotalIncome] = useState(0)
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('client:getAll')
+        setTotalClients(response.length)
+      } catch (error) {
+        console.log('Error Fetching in TotalClientsLength:', error)
+      }
+    }
+    fetchClients()
+  }, [])
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('projectdetails:getAll')
+        console.log('Projects:', response)
+        setProjects(response)
+      } catch (error) {
+        console.log('Error Fetching in TotalProjectsLength:', error)
+      }
+    }
+    fetchProjects()
+  }, [])
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('transaction:getAll')
+        const totalPaidAmount = response.reduce(
+          (sum: number, transaction: Transaction) => sum + transaction.paidamount,
+          0,
+        )
+        setTotalIncome(totalPaidAmount)
+      } catch (error) {
+        console.log('Error Fetching in TotalTransactionsLength:', error)
+      }
+    }
+    fetchTransactions()
+  }, [])
   return (
     <>
       <div className='md:hidden '>
@@ -55,7 +106,7 @@ export default function DashboardPage() {
             {/* </div> */}
           </div>
           <Tabs defaultValue='overview' className='space-y-4'>
-            <TabsList>
+            {/* <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
               <TabsTrigger value='Clients' disabled>
                 Clients
@@ -66,7 +117,7 @@ export default function DashboardPage() {
               <TabsTrigger value='Transactions' disabled>
                 Transactions
               </TabsTrigger>
-            </TabsList>
+            </TabsList> */}
             <TabsContent value='overview' className='space-y-4'>
               <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
                 <Card>
@@ -78,7 +129,7 @@ export default function DashboardPage() {
                       height='24'
                       viewBox='0 0 24 24'
                       fill='none'
-                      stroke='currentColor'
+                      stroke='orange'
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
@@ -92,7 +143,9 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>₹45,231.89</div>
+                    <div className='text-2xl font-bold'>
+                      ₹<CountUp end={totalIncome} duration={2} />
+                    </div>
                     <p className='text-xs text-muted-foreground'>+20.1% from last month</p>
                   </CardContent>
                 </Card>
@@ -105,7 +158,7 @@ export default function DashboardPage() {
                       height='24'
                       viewBox='0 0 24 24'
                       fill='none'
-                      stroke='currentColor'
+                      stroke='lime'
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
@@ -118,7 +171,9 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>102</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={totalClients} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+180.1% from last month</p>
                   </CardContent>
                 </Card>
@@ -131,7 +186,7 @@ export default function DashboardPage() {
                       height='24'
                       viewBox='0 0 24 24'
                       fill='none'
-                      stroke='currentColor'
+                      stroke='blue'
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
@@ -145,7 +200,9 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>+12,234</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={projects.length} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+19% from last month</p>
                   </CardContent>
                 </Card>
@@ -158,7 +215,7 @@ export default function DashboardPage() {
                       height='24'
                       viewBox='0 0 24 24'
                       fill='none'
-                      stroke='currentColor'
+                      stroke='red'
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
@@ -194,8 +251,8 @@ export default function DashboardPage() {
                 </Card>
                 <Card className='col-span-3'>
                   <CardHeader>
-                    <CardTitle>Recent Projects</CardTitle>
-                    <CardDescription>You made 265 Projects this week.</CardDescription>
+                    <CardTitle>Recent Transaction</CardTitle>
+                    <CardDescription>You made 23 Transaction this week.</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <DashboardRecent />

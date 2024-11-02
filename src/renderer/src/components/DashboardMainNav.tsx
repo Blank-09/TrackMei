@@ -6,25 +6,25 @@ export function DashboardMainNav({ className, ...props }: React.HTMLAttributes<H
   return (
     <nav className={cn('flex items-center space-x-4 lg:space-x-6', className)} {...props}>
       <Link
-        to='/examples/dashboard'
+        to='/dashboard/maindashboard'
         className='text-sm font-medium transition-colors hover:text-primary'
       >
         Overview
       </Link>
       <Link
-        to='/examples/dashboard'
+        to='/dashboard/clientdashboard'
         className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
       >
         Clients
       </Link>
       <Link
-        to='/examples/dashboard'
+        to='/dashboard/projectdashboard'
         className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
       >
         Projects
       </Link>
       <Link
-        to='/examples/dashboard'
+        to='/dashboard/transactiondashboard'
         className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
       >
         Transactions
