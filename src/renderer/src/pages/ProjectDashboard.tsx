@@ -9,6 +9,8 @@ import ProjectTeamSwitcher from '@/components/projectdashboard/ProjectTeamSwitch
 import { ProjectUserNav } from '@/components/projectdashboard/ProjectUserNav'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
+import { useEffect, useState } from 'react'
+import CountUp from 'react-countup'
 // import { CalendarDateRangePicker } from "@/app/(app)/examples/dashboard/components/date-range-picker"
 
 // export const metadata: Metadata = {
@@ -16,7 +18,34 @@ import { Tabs, TabsContent } from '@/components/ui/tabs'
 //   description: "Example dashboard app built using the components.",
 // }
 
+type Project = {
+  project_status: string
+}
+
 export default function ProjectDashboard() {
+  const [projects, setProjects] = useState<Project[]>([])
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('projectdetails:getAll')
+        console.log('Projects:', response)
+        setProjects(response)
+      } catch (error) {
+        console.log('Error Fetching in TotalProjectsLength:', error)
+      }
+    }
+    fetchProjects()
+  }, [])
+  const inProgressCount = projects.filter(
+    (project) => project.project_status === 'in progress',
+  ).length
+  const inCompletedCount = projects.filter(
+    (project) => project.project_status === 'completed',
+  ).length
+  const inNotstartedCount = projects.filter(
+    (project) => project.project_status === 'not started',
+  ).length
   return (
     <>
       <div className='md:hidden '>
@@ -99,7 +128,9 @@ export default function ProjectDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>45,231</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={projects.length} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+20.1% from last month</p>
                   </CardContent>
                 </Card>
@@ -129,7 +160,9 @@ export default function ProjectDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>102</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={inProgressCount} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+180.1% from last month</p>
                   </CardContent>
                 </Card>
@@ -153,7 +186,9 @@ export default function ProjectDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>12,234</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={inCompletedCount} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+19% from last month</p>
                   </CardContent>
                 </Card>
@@ -178,7 +213,9 @@ export default function ProjectDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>573</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={inNotstartedCount} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+201 since last hour</p>
                   </CardContent>
                 </Card>
