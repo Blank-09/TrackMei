@@ -9,6 +9,8 @@ import { TransactionUserNav } from '@/components/transactiondashboard/Transactio
 import { TransactionRecent } from '@/components/transactiondashboard/TranscationRecent'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
+import { useEffect, useState } from 'react'
+import CountUp from 'react-countup'
 // import { CalendarDateRangePicker } from "@/app/(app)/examples/dashboard/components/date-range-picker"
 
 // export const metadata: Metadata = {
@@ -16,7 +18,30 @@ import { Tabs, TabsContent } from '@/components/ui/tabs'
 //   description: "Example dashboard app built using the components.",
 // }
 
+type Transaction = {
+  paidamount: number
+}
+
 export default function TransactionDashboard() {
+  const [totalTransactions, setTotalTransactions] = useState(0)
+  const [totalIncome, setTotalIncome] = useState(0)
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('transaction:getAll')
+        setTotalTransactions(response.length)
+        const totalPaidAmount = response.reduce(
+          (sum: number, transaction: Transaction) => sum + transaction.paidamount,
+          0,
+        )
+        setTotalIncome(totalPaidAmount)
+      } catch (error) {
+        console.log('Error Fetching in TotalTransactionsLength:', error)
+      }
+    }
+    fetchTransactions()
+  }, [])
   return (
     <>
       <div className='md:hidden '>
@@ -92,7 +117,9 @@ export default function TransactionDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>45,231</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={totalTransactions} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+20.1% from last month</p>
                   </CardContent>
                 </Card>
@@ -119,7 +146,9 @@ export default function TransactionDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>102</div>
+                    <div className='text-2xl font-bold'>
+                      ₹<CountUp end={totalIncome} duration={2} />
+                    </div>
                     <p className='text-xs text-muted-foreground'>+180.1% from last month</p>
                   </CardContent>
                 </Card>
@@ -143,7 +172,9 @@ export default function TransactionDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>12,234</div>
+                    <div className='text-2xl font-bold'>
+                      ₹<CountUp end={7421} duration={2} />
+                    </div>
                     <p className='text-xs text-muted-foreground'>+19% from last month</p>
                   </CardContent>
                 </Card>
@@ -167,7 +198,9 @@ export default function TransactionDashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>573</div>
+                    <div className='text-2xl font-bold'>
+                      ₹<CountUp end={4600} duration={2} />
+                    </div>
                     <p className='text-xs text-muted-foreground'>+201 since last hour</p>
                   </CardContent>
                 </Card>
