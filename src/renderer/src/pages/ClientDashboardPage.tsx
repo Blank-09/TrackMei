@@ -9,6 +9,8 @@ import ClientTeamSwitcher from '@/components/clientdashboard/ClientTeamSwitcher'
 import { ClientUserNav } from '@/components/clientdashboard/ClientUserNav'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
+import { useEffect, useState } from 'react'
+import CountUp from 'react-countup'
 // import { CalendarDateRangePicker } from "@/app/(app)/examples/dashboard/components/date-range-picker"
 
 // export const metadata: Metadata = {
@@ -17,6 +19,20 @@ import { Tabs, TabsContent } from '@/components/ui/tabs'
 // }
 
 export default function ClientDashboardPage() {
+  const [totalClients, setTotalClients] = useState(0)
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('client:getAll')
+        setTotalClients(response.length)
+      } catch (error) {
+        console.log('Error Fetching in TotalClientsLength:', error)
+      }
+    }
+    fetchClients()
+  }, [])
+
   return (
     <>
       <div className='md:hidden '>
@@ -82,17 +98,18 @@ export default function ClientDashboardPage() {
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
-                      className='lucide lucide-indian-rupee'
+                      className='lucide lucide-users'
                     >
-                      <path d='M6 3h12' />
-                      <path d='M6 8h12' />
-                      <path d='m6 13 8.5 8' />
-                      <path d='M6 13h3' />
-                      <path d='M9 13c6.667 0 6.667-10 0-10' />
+                      <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
+                      <circle cx='9' cy='7' r='4' />
+                      <path d='M22 21v-2a4 4 0 0 0-3-3.87' />
+                      <path d='M16 3.13a4 4 0 0 1 0 7.75' />
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>₹45,231.89</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={totalClients} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+20.1% from last month</p>
                   </CardContent>
                 </Card>
@@ -105,80 +122,74 @@ export default function ClientDashboardPage() {
                       height='24'
                       viewBox='0 0 24 24'
                       fill='none'
-                      stroke='currentColor'
+                      stroke='green'
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
-                      className='lucide lucide-users'
+                      className='lucide lucide-user-check'
                     >
                       <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
                       <circle cx='9' cy='7' r='4' />
-                      <path d='M22 21v-2a4 4 0 0 0-3-3.87' />
-                      <path d='M16 3.13a4 4 0 0 1 0 7.75' />
+                      <polyline points='16 11 18 13 22 9' />
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>102</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={totalClients} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+180.1% from last month</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                    <CardTitle className='text-sm font-medium'>Total Projects</CardTitle>
+                    <CardTitle className='text-sm font-medium'>Inactive Client's</CardTitle>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       width='24'
                       height='24'
                       viewBox='0 0 24 24'
                       fill='none'
-                      stroke='currentColor'
+                      stroke='red'
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
-                      className='lucide lucide-network'
+                      className='lucide lucide-user-minus'
                     >
-                      <rect x='16' y='16' width='6' height='6' rx='1' />
-                      <rect x='2' y='16' width='6' height='6' rx='1' />
-                      <rect x='9' y='2' width='6' height='6' rx='1' />
-                      <path d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3' />
-                      <path d='M12 12V8' />
+                      <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
+                      <circle cx='9' cy='7' r='4' />
+                      <line x1='22' x2='16' y1='11' y2='11' />
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>+12,234</div>
-                    <p className='text-xs text-muted-foreground'>+19% from last month</p>
+                    <div className='text-2xl font-bold '>1</div>
+                    <p className='text-xs text-muted-foreground'>1% from last month</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                    <CardTitle className='text-sm font-medium'>Total Intern's</CardTitle>
+                    <CardTitle className='text-sm font-medium'>Happy Client's</CardTitle>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       width='24'
                       height='24'
                       viewBox='0 0 24 24'
                       fill='none'
-                      stroke='currentColor'
+                      stroke='orange'
                       stroke-width='2'
                       stroke-linecap='round'
                       stroke-linejoin='round'
-                      className='lucide lucide-user-cog'
+                      className='lucide lucide-smile'
                     >
-                      <circle cx='18' cy='15' r='3' />
-                      <circle cx='9' cy='7' r='4' />
-                      <path d='M10 15H6a4 4 0 0 0-4 4v2' />
-                      <path d='m21.7 16.4-.9-.3' />
-                      <path d='m15.2 13.9-.9-.3' />
-                      <path d='m16.6 18.7.3-.9' />
-                      <path d='m19.1 12.2.3-.9' />
-                      <path d='m19.6 18.7-.4-1' />
-                      <path d='m16.8 12.3-.4-1' />
-                      <path d='m14.3 16.6 1-.4' />
-                      <path d='m20.7 13.8 1-.4' />
+                      <circle cx='12' cy='12' r='10' />
+                      <path d='M8 14s1.5 2 4 2 4-2 4-2' />
+                      <line x1='9' x2='9.01' y1='9' y2='9' />
+                      <line x1='15' x2='15.01' y1='9' y2='9' />
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className='text-2xl font-bold'>+573</div>
+                    <div className='text-2xl font-bold'>
+                      <CountUp end={totalClients} duration={2} />+
+                    </div>
                     <p className='text-xs text-muted-foreground'>+201 since last hour</p>
                   </CardContent>
                 </Card>
