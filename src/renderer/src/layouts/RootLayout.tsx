@@ -5,7 +5,7 @@ const RootLayout: React.FC = () => {
   return (
     <div>
       RootLayout
-      <Link to='/dashboard'>Dashboard</Link>
+      <Link to='/dashboard/maindashboard'>Dashboard</Link>
     </div>
   )
 }
