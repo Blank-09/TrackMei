@@ -1,63 +1,57 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import React, { useEffect } from 'react'
+import { Badge } from '../ui/badge'
+
+type Client = {
+  name: string
+  email: string
+  companyname: string
+}
+
+const avatarUrl = 'https://avatar.iran.liara.run/public/28'
 
 export function ClientRecent() {
+  const [clients, setClients] = React.useState<Client[]>([])
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response = await window.electron.ipcRenderer.invoke('client:getAll')
+        const clientData = response.map((client: any) => ({
+          name: client.owner_name,
+          email: client.owner_email,
+          companyname: client.company_name,
+        }))
+        setClients(clientData)
+        console.log('Clients:', clientData)
+      } catch (error) {
+        console.log('Error fetching clients:', error)
+      }
+    }
+    fetchClients()
+  }, [])
+  const topClients = clients.slice(-5).reverse()
   return (
     <div className='space-y-8'>
-      <div className='flex items-center'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/01.png' alt='Avatar' />
-          <AvatarFallback>OM</AvatarFallback>
-        </Avatar>
-        <div className='ml-4 space-y-1'>
-          <p className='text-sm font-medium leading-none'>Olivia Martin</p>
-          <p className='text-sm text-muted-foreground'>olivia.martin@email.com</p>
+      {topClients.map((client, index) => (
+        <div key={index} className='flex items-center'>
+          <Avatar className='h-9 w-9'>
+            <AvatarImage src={avatarUrl} alt='Avatar' />
+            <AvatarFallback>
+              {client.name
+                .split(' ')
+                .map((n) => n[0])
+                .join('')}
+            </AvatarFallback>
+          </Avatar>
+          <div className='ml-4 space-y-1'>
+            <p className='text-sm font-medium leading-none'>{client.name}</p>
+            <p className='text-sm text-muted-foreground'>{client.email}</p>
+          </div>
+          <div className='ml-auto font-medium'>
+            <Badge variant='outline'>{client.companyname}</Badge>
+          </div>
         </div>
-        <div className='ml-auto font-medium'>+$1,999.00</div>
-      </div>
-      <div className='flex items-center'>
-        <Avatar className='flex h-9 w-9 items-center justify-center space-y-0 border'>
-          <AvatarImage src='/avatars/02.png' alt='Avatar' />
-          <AvatarFallback>JL</AvatarFallback>
-        </Avatar>
-        <div className='ml-4 space-y-1'>
-          <p className='text-sm font-medium leading-none'>Jackson Lee</p>
-          <p className='text-sm text-muted-foreground'>jackson.lee@email.com</p>
-        </div>
-        <div className='ml-auto font-medium'>+$39.00</div>
-      </div>
-      <div className='flex items-center'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/03.png' alt='Avatar' />
-          <AvatarFallback>IN</AvatarFallback>
-        </Avatar>
-        <div className='ml-4 space-y-1'>
-          <p className='text-sm font-medium leading-none'>Isabella Nguyen</p>
-          <p className='text-sm text-muted-foreground'>isabella.nguyen@email.com</p>
-        </div>
-        <div className='ml-auto font-medium'>+$299.00</div>
-      </div>
-      <div className='flex items-center'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/04.png' alt='Avatar' />
-          <AvatarFallback>WK</AvatarFallback>
-        </Avatar>
-        <div className='ml-4 space-y-1'>
-          <p className='text-sm font-medium leading-none'>William Kim</p>
-          <p className='text-sm text-muted-foreground'>will@email.com</p>
-        </div>
-        <div className='ml-auto font-medium'>+$99.00</div>
-      </div>
-      <div className='flex items-center'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/05.png' alt='Avatar' />
-          <AvatarFallback>SD</AvatarFallback>
-        </Avatar>
-        <div className='ml-4 space-y-1'>
-          <p className='text-sm font-medium leading-none'>Sofia Davis</p>
-          <p className='text-sm text-muted-foreground'>sofia.davis@email.com</p>
-        </div>
-        <div className='ml-auto font-medium'>+$39.00</div>
-      </div>
+      ))}
     </div>
   )
 }
