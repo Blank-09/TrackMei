@@ -78,7 +78,7 @@ const data = {
       items: [
         {
           title: 'Project Dashboard',
-          url: '#',
+          url: '/dashboard/projectdashboard',
         },
         {
           title: 'Project List',
