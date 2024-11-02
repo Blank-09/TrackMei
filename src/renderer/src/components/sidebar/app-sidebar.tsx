@@ -35,9 +35,9 @@ const data = {
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'Errorfy',
       logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
+      plan: 'Start-Up',
     },
     {
       name: 'Acme Corp.',
@@ -59,7 +59,7 @@ const data = {
       items: [
         {
           title: 'Client Dashboard',
-          url: '/dashboard/clientaddform',
+          url: '/dashboard/clientdashboard',
         },
         {
           title: 'Client List',
