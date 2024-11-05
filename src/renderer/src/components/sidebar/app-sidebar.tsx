@@ -101,7 +101,7 @@ const data = {
         },
         {
           title: 'Interns List',
-          url: '#',
+          url: '/dashboard/interntable',
         },
         {
           title: 'Tutorials',

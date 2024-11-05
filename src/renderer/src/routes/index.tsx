@@ -15,6 +15,7 @@ import DashboardPage from '@/pages/MainDashboardPage'
 import ClientDashboardPage from '@/pages/ClientDashboardPage'
 import ProjectDashboard from '@/pages/ProjectDashboard'
 import TransactionDashboard from '@/pages/TransactionDashboard'
+import { InternTable } from '@/pages/InternTable'
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: 'transactionlist',
         element: <TranscationTable />,
+      },
+      {
+        path: 'interntable',
+        element: <InternTable />,
       },
     ],
   },
