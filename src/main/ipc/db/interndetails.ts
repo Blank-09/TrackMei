@@ -1,6 +1,5 @@
 import { ipcMain } from 'electron'
 import { InternDetails, InternDetailsAttributes } from '../../model/InternDetails'
-import { ProjectDetails } from '../../model/ProjectDetails'
 
 // Handler to add a new intern
 ipcMain.handle('interndetails:add', async (_event, data: InternDetailsAttributes) => {
@@ -17,7 +16,7 @@ ipcMain.handle('interndetails:add', async (_event, data: InternDetailsAttributes
 ipcMain.handle('interndetails:getAll', async () => {
   try {
     const interndetails = await InternDetails.findAll()
-    return interndetails
+    return interndetails.map((Interndetails) => Interndetails.toJSON())
   } catch (e) {
     console.error('Error retrieving all intern details:', e)
     return []
@@ -28,39 +27,26 @@ ipcMain.handle('interndetails:getAll', async () => {
 ipcMain.handle('interndetails:getById', async (_event, interndetailsId: number) => {
   try {
     const interndetails = await InternDetails.findByPk(interndetailsId)
-    return interndetails || null
+    return interndetails?.toJSON()
   } catch (e) {
     console.error(`Error retrieving intern details for ID ${interndetailsId}:`, e)
     return null
   }
 })
 
-ipcMain.handle('interndetails:update', async (_event, data: InternDetailsAttributes) => {
+ipcMain.handle('interndetails:update', async (_event, data) => {
   try {
-    const projectExists = await ProjectDetails.findOne({
-      where: { project_id: data.project_id },
-    })
-
-    if (!projectExists) {
-      console.error(`Project ID ${data.project_id} does not exist.`)
-      return null
-    }
-
-    const result = await InternDetails.update(data, {
+    const [updated] = await InternDetails.update(data, {
       where: { intern_id: data.intern_id },
-      returning: true,
     })
-
-    const [rowsUpdated, updatedInternDetails] = result
-
-    // Check if the update was successful and return the updated details
-    return rowsUpdated > 0 ? updatedInternDetails[0] : null // Return the updated instance
+    return updated
+      ? { success: true, message: 'Intern updated successfully.' }
+      : { success: false, message: 'Intern not found or update failed.' }
   } catch (e) {
-    console.error(`Error updating intern details for ID ${data.intern_id}:`, e)
-    return null // Return null in case of error
+    console.error('Error updating intern:', e)
+    return { success: false, message: 'Error updating intern.' }
   }
 })
-
 // Handler to delete an intern by ID
 ipcMain.handle('interndetails:delete', async (_event, interndetailsId: number) => {
   try {
